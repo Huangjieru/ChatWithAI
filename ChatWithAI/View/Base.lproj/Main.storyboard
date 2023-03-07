@@ -52,7 +52,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7D0-Ep-SNK">
                                         <rect key="frame" x="328" y="0.0" width="65" height="50"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="65" id="JfS-sd-roA"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="65" id="JfS-sd-roA"/>
                                             <constraint firstAttribute="height" constant="50" id="Y8G-1U-Lh2"/>
                                         </constraints>
                                         <state key="normal" title="Button"/>

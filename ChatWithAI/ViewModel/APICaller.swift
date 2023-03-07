@@ -9,7 +9,7 @@ import Foundation
 
 struct APICaller{
     static let shared = APICaller()
-    private let apiKey = "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"
+    private let apiKey = ""
     private let baseURL:URL = URL(string: "https://api.openai.com/v1/")!
     
     func fetchChatGPTAPI(prompt:String,completion:@escaping(OpenAPIResponse)->Void){
@@ -22,10 +22,12 @@ struct APICaller{
         request.httpBody = try? JSONEncoder().encode(openAIBody)
         
         URLSession.shared.dataTask(with: request) { data, response, error in
+            print("123")
             if let data = data{
                 do
                 {
                     let jsonDecoder = JSONDecoder()
+                    jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
                     let openAPIResponse = try jsonDecoder.decode(OpenAPIResponse.self, from: data)
                     print(openAPIResponse)
                     completion(openAPIResponse)

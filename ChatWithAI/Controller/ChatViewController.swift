@@ -27,6 +27,8 @@ class ChatViewController: UIViewController {
         let userTableViewCellXib = UINib(nibName: "UserTableViewCell", bundle: nil)
         tableView.register(userTableViewCellXib, forCellReuseIdentifier: "userCell")
         
+        setupKeyboard()
+        
     }
     //按下傳送按鈕
     @IBAction func sendMessage(_ sender: UIButton) {
@@ -45,7 +47,8 @@ class ChatViewController: UIViewController {
                 self?.content.append(Content(name: .chapgpt, text: choicesText))
                 self?.tableView.reloadData() //更新資料
                 //讓句子出現在最底層的對話中
-                let indexPath = IndexPath(row: (self?.content.count ?? 1)-1, section: 0)
+                let contentCount = (self?.content.count ?? 1) - 1
+                let indexPath = IndexPath(row: contentCount, section: 0)
                 self?.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
             }
             
@@ -55,10 +58,31 @@ class ChatViewController: UIViewController {
         //句子出現在最底層的對話中
         let indexPath = IndexPath(row: content.count-1, section: 0)
         self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-         
     }
-    
+    //推鍵盤
+   private func setupKeyboard(){
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+       NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    @objc func keyboardWillShow(notification:NSNotification){
 
+        if let keyboardFrame = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] ?? 0) as? NSValue  {
+            
+            //取得keyboard高度（CGFloat）
+            let keyboardSize = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardSize.height
+
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardHeight
+            }
+        }
+    }
+    @objc func keyboardWillHide(){
+        if self.view.frame.origin.y != 0{
+            self.view.frame.origin.y = 0
+        }
+       
+    }
 }
 //MARK: - TableView
 extension ChatViewController:UITableViewDelegate,UITableViewDataSource{
