@@ -8,9 +8,9 @@
 import UIKit
 
 class ChatViewController: UIViewController {
-    
+
     @IBOutlet weak var userMessageTextField: UITextField!
-    
+    @IBOutlet weak var stackView: UIStackView!
     var content = [Content]()
     var openAPIResponse:OpenAPIResponse?
     
@@ -29,6 +29,14 @@ class ChatViewController: UIViewController {
         
         setupKeyboard()
         
+    }
+    public func printAll(_ message: String, file: String = #file, line: Int = #line ) {
+        let now:Date = Date()
+        let dateFormat:DateFormatter = DateFormatter()
+        dateFormat.dateFormat = "HH:mm:ss"
+        let dateString:String = dateFormat.string(from: now)
+        let file = (file as NSString).lastPathComponent
+        print("[\(file)] [\(line)] [\(dateString)]:\(message)")
     }
     //按下傳送按鈕
     @IBAction func sendMessage(_ sender: UIButton) {
@@ -63,27 +71,40 @@ class ChatViewController: UIViewController {
    private func setupKeyboard(){
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    @objc func keyboardWillShow(notification:NSNotification){
-
-        if let keyboardFrame = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] ?? 0) as? NSValue  {
-            
-            //取得keyboard高度（CGFloat）
-            let keyboardSize = keyboardFrame.cgRectValue
-            let keyboardHeight = keyboardSize.height
-
-            if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardHeight
-            }
-        }
-    }
-    @objc func keyboardWillHide(){
-        if self.view.frame.origin.y != 0{
-            self.view.frame.origin.y = 0
-        }
        
     }
+    @objc func keyboardWillShow(notification:NSNotification){
+        print("鍵盤彈出通知\(notification)")
+        if let keyboardFrame = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] ?? 0) as? NSValue  {
+            printAll("Do keyboardWillShow")
+            
+            //取得鍵盤高度（CGFloat)
+            let keyboardSize = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardSize.height
+        
+            //鍵盤上方Y的位置
+            let keyboardTopY =  self.view.frame.size.height - keyboardHeight
+            print("鍵盤高度：\(keyboardHeight), 可視高度：\(keyboardTopY)")
+            //stackView下方Y的位置
+            let stackViewBottomY = stackView.frame.origin.y + stackView.frame.size.height
+            //畫面最下方剩餘的高度
+            let bottomViewHeigh = self.view.frame.height - stackViewBottomY
+            print("輸入區底部Y值\(stackViewBottomY),剩餘高度\(bottomViewHeigh)")
+            //假設要輸入的地方被鍵盤遮住(鍵盤位置高於輸入匡)
+                if keyboardTopY < stackViewBottomY{
+                    //移動高度=被遮住部分+畫面最下方剩餘的高度
+                    let distanceToMove = stackViewBottomY - keyboardTopY + (bottomViewHeigh)
+                    self.view.frame.origin.y = -distanceToMove
+                    
+                }
+        }
+    
+    }
+    @objc func keyboardWillHide(){
+            self.view.frame.origin.y = 0
+    }
 }
+
 //MARK: - TableView
 extension ChatViewController:UITableViewDelegate,UITableViewDataSource{
     
