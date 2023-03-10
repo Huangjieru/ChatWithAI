@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2B6B1EF529B4BE6400636270 /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6B1EF429B4BE6400636270 /* APICaller.swift */; };
+		2B6B1EFA29BB08A700636270 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6B1EF929BB08A700636270 /* LoginViewController.swift */; };
+		2B6B1EFC29BB08B900636270 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6B1EFB29BB08B900636270 /* RegisterViewController.swift */; };
 		2B94F7A329AC8066002F7742 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B94F7A229AC8066002F7742 /* AppDelegate.swift */; };
 		2B94F7A529AC8066002F7742 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B94F7A429AC8066002F7742 /* SceneDelegate.swift */; };
 		2B94F7AA29AC8066002F7742 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B94F7A829AC8066002F7742 /* Main.storyboard */; };
@@ -24,6 +26,8 @@
 
 /* Begin PBXFileReference section */
 		2B6B1EF429B4BE6400636270 /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
+		2B6B1EF929BB08A700636270 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		2B6B1EFB29BB08B900636270 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		2B94F79F29AC8066002F7742 /* ChatWithAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatWithAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B94F7A229AC8066002F7742 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B94F7A429AC8066002F7742 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -62,6 +66,7 @@
 		2B6B1EF229B4BCF000636270 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				2B94F7AE29AC806B002F7742 /* Assets.xcassets */,
 				2B94F7A829AC8066002F7742 /* Main.storyboard */,
 				2B94F7BA29AC82E7002F7742 /* ChatgptTableViewCell.xib */,
 				2B94F7B929AC82E7002F7742 /* ChatgptTableViewCell.swift */,
@@ -75,6 +80,8 @@
 			isa = PBXGroup;
 			children = (
 				2B94F7C129AC832B002F7742 /* ChatViewController.swift */,
+				2B6B1EF929BB08A700636270 /* LoginViewController.swift */,
+				2B6B1EFB29BB08B900636270 /* RegisterViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -85,6 +92,15 @@
 				2B6B1EF429B4BE6400636270 /* APICaller.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		2B6B1EF729BB06D300636270 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				2B94F7A429AC8066002F7742 /* SceneDelegate.swift */,
+				2B94F7A229AC8066002F7742 /* AppDelegate.swift */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		2B94F79629AC8066002F7742 = {
@@ -106,13 +122,11 @@
 		2B94F7A129AC8066002F7742 /* ChatWithAI */ = {
 			isa = PBXGroup;
 			children = (
-				2B94F7A229AC8066002F7742 /* AppDelegate.swift */,
-				2B94F7A429AC8066002F7742 /* SceneDelegate.swift */,
+				2B6B1EF729BB06D300636270 /* Resources */,
 				2B6B1EF129B4BCD500636270 /* Model */,
 				2B6B1EF229B4BCF000636270 /* View */,
 				2B6B1EF629B567B200636270 /* ViewModel */,
 				2B6B1EF329B4BD3000636270 /* Controller */,
-				2B94F7AE29AC806B002F7742 /* Assets.xcassets */,
 				2B94F7B029AC806B002F7742 /* LaunchScreen.storyboard */,
 				2B94F7B329AC806B002F7742 /* Info.plist */,
 				2B94F7AB29AC8066002F7742 /* ChatWithAI.xcdatamodeld */,
@@ -193,6 +207,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B6B1EFA29BB08A700636270 /* LoginViewController.swift in Sources */,
+				2B6B1EFC29BB08B900636270 /* RegisterViewController.swift in Sources */,
 				2B94F7AD29AC8066002F7742 /* ChatWithAI.xcdatamodeld in Sources */,
 				2B94F7A329AC8066002F7742 /* AppDelegate.swift in Sources */,
 				2B94F7C429AC9347002F7742 /* Content.swift in Sources */,
@@ -353,8 +369,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -381,8 +397,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

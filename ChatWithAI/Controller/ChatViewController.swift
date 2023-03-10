@@ -93,7 +93,7 @@ class ChatViewController: UIViewController {
             //假設要輸入的地方被鍵盤遮住(鍵盤位置高於輸入匡)
                 if keyboardTopY < stackViewBottomY{
                     //移動高度=被遮住部分+畫面最下方剩餘的高度
-                    let distanceToMove = stackViewBottomY - keyboardTopY + (bottomViewHeigh)
+                    let distanceToMove = stackViewBottomY - keyboardTopY + bottomViewHeigh
                     self.view.frame.origin.y = -distanceToMove
                     
                 }
