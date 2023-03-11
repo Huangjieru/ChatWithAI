@@ -11,6 +11,8 @@ class ChatViewController: UIViewController {
 
     @IBOutlet weak var userMessageTextField: UITextField!
     @IBOutlet weak var stackView: UIStackView!
+    
+    @IBOutlet weak var stackViewBottomConstraint: NSLayoutConstraint!
     var content = [Content]()
     var openAPIResponse:OpenAPIResponse?
     
@@ -18,6 +20,8 @@ class ChatViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Talking Time 💬"
+        
         tableView.delegate = self
         tableView.dataSource = self
         userMessageTextField.delegate = self
@@ -29,7 +33,10 @@ class ChatViewController: UIViewController {
         
         setupKeyboard()
         
+        view.backgroundColor = .systemGray5
+        
     }
+
     public func printAll(_ message: String, file: String = #file, line: Int = #line ) {
         let now:Date = Date()
         let dateFormat:DateFormatter = DateFormatter()
@@ -67,7 +74,7 @@ class ChatViewController: UIViewController {
         let indexPath = IndexPath(row: content.count-1, section: 0)
         self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
     }
-    //推鍵盤
+    //鍵盤觀察器
    private func setupKeyboard(){
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -84,24 +91,26 @@ class ChatViewController: UIViewController {
         
             //鍵盤上方Y的位置
             let keyboardTopY =  self.view.frame.size.height - keyboardHeight
-            print("鍵盤高度：\(keyboardHeight), 可視高度：\(keyboardTopY)")
+            print("鍵盤高度：\(keyboardHeight), 鍵盤上方Y位置：\(keyboardTopY)")
+            
             //stackView下方Y的位置
             let stackViewBottomY = stackView.frame.origin.y + stackView.frame.size.height
-            //畫面最下方剩餘的高度
-            let bottomViewHeigh = self.view.frame.height - stackViewBottomY
-            print("輸入區底部Y值\(stackViewBottomY),剩餘高度\(bottomViewHeigh)")
-            //假設要輸入的地方被鍵盤遮住(鍵盤位置高於輸入匡)
+            print("stackViewＹ的位置\(stackView.frame.origin.y),stackView底部Y值\(stackViewBottomY)")
+            //剩餘空間（在stackView底部與view底部的距離）
+            let bottomSpace = self.view.frame.size.height - stackViewBottomY
+            print("剩餘空間：\(bottomSpace)")
+            //假設要輸入的地方被鍵盤遮住(鍵盤位置高於輸入框)
                 if keyboardTopY < stackViewBottomY{
-                    //移動高度=被遮住部分+畫面最下方剩餘的高度
-                    let distanceToMove = stackViewBottomY - keyboardTopY + bottomViewHeigh
-                    self.view.frame.origin.y = -distanceToMove
+                   
+                    stackViewBottomConstraint.constant = keyboardHeight - bottomSpace/2
                     
+                    print("移動\(String(describing: stackViewBottomConstraint))")
                 }
         }
     
     }
     @objc func keyboardWillHide(){
-            self.view.frame.origin.y = 0
+        stackViewBottomConstraint.constant = 0
     }
 }
 
@@ -144,5 +153,5 @@ extension ChatViewController:UITextFieldDelegate{
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder() //return退鍵盤
     }
-
+    
 }
