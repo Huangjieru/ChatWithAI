@@ -92,7 +92,7 @@ class RegisterViewController: UIViewController {
     private let registerButton: UIButton = {
        let button = UIButton()
         button.setTitle("Register", for: .normal)
-        button.backgroundColor = .link
+        button.backgroundColor = .systemMint
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 12
 //        button.layer.masksToBounds = true //CALayer的属性
