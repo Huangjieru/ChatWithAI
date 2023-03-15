@@ -46,7 +46,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="fy7-qR-TjH"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7D0-Ep-SNK">
@@ -73,6 +73,7 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemGray5Color"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="JRZ-SI-VTm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="DOY-UF-MpP"/>
                             <constraint firstItem="wAQ-3Q-Suy" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="h5b-Tk-AT9"/>

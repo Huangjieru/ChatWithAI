@@ -22,6 +22,9 @@
 		2B94F7C029AC8306002F7742 /* UserTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B94F7BE29AC8306002F7742 /* UserTableViewCell.xib */; };
 		2B94F7C229AC832B002F7742 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B94F7C129AC832B002F7742 /* ChatViewController.swift */; };
 		2B94F7C429AC9347002F7742 /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B94F7C329AC9347002F7742 /* Content.swift */; };
+		2BFA61AE29BEDFB8003A242E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFA61AD29BEDFB8003A242E /* Extensions.swift */; };
+		2BFA61B029BF33F7003A242E /* PhotoViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFA61AF29BF33F7003A242E /* PhotoViewerViewController.swift */; };
+		8753C7121AE5F7A4DC9EBCDC /* Pods_ChatWithAI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6001232D6B429CE0FFC5D0CA /* Pods_ChatWithAI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +45,11 @@
 		2B94F7BE29AC8306002F7742 /* UserTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserTableViewCell.xib; sourceTree = "<group>"; };
 		2B94F7C129AC832B002F7742 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		2B94F7C329AC9347002F7742 /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
+		2BFA61AD29BEDFB8003A242E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		2BFA61AF29BF33F7003A242E /* PhotoViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewerViewController.swift; sourceTree = "<group>"; };
+		6001232D6B429CE0FFC5D0CA /* Pods_ChatWithAI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatWithAI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D356C2DA7018E398261556E9 /* Pods-ChatWithAI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatWithAI.release.xcconfig"; path = "Target Support Files/Pods-ChatWithAI/Pods-ChatWithAI.release.xcconfig"; sourceTree = "<group>"; };
+		E899BE54413BC075C5B1755E /* Pods-ChatWithAI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatWithAI.debug.xcconfig"; path = "Target Support Files/Pods-ChatWithAI/Pods-ChatWithAI.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8753C7121AE5F7A4DC9EBCDC /* Pods_ChatWithAI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,8 +89,8 @@
 			isa = PBXGroup;
 			children = (
 				2B94F7C129AC832B002F7742 /* ChatViewController.swift */,
-				2B6B1EF929BB08A700636270 /* LoginViewController.swift */,
-				2B6B1EFB29BB08B900636270 /* RegisterViewController.swift */,
+				2BFA61B129BF3425003A242E /* login */,
+				2BFA61AF29BF33F7003A242E /* PhotoViewerViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -99,6 +108,7 @@
 			children = (
 				2B94F7A429AC8066002F7742 /* SceneDelegate.swift */,
 				2B94F7A229AC8066002F7742 /* AppDelegate.swift */,
+				2BFA61AD29BEDFB8003A242E /* Extensions.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -108,6 +118,8 @@
 			children = (
 				2B94F7A129AC8066002F7742 /* ChatWithAI */,
 				2B94F7A029AC8066002F7742 /* Products */,
+				D400F227FE12B6E2C3307B53 /* Frameworks */,
+				928FAEF2EB45586BF8ECDE05 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -134,6 +146,33 @@
 			path = ChatWithAI;
 			sourceTree = "<group>";
 		};
+		2BFA61B129BF3425003A242E /* login */ = {
+			isa = PBXGroup;
+			children = (
+				2B6B1EF929BB08A700636270 /* LoginViewController.swift */,
+				2B6B1EFB29BB08B900636270 /* RegisterViewController.swift */,
+			);
+			path = login;
+			sourceTree = "<group>";
+		};
+		928FAEF2EB45586BF8ECDE05 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E899BE54413BC075C5B1755E /* Pods-ChatWithAI.debug.xcconfig */,
+				D356C2DA7018E398261556E9 /* Pods-ChatWithAI.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		D400F227FE12B6E2C3307B53 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6001232D6B429CE0FFC5D0CA /* Pods_ChatWithAI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -141,9 +180,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2B94F7B629AC806B002F7742 /* Build configuration list for PBXNativeTarget "ChatWithAI" */;
 			buildPhases = (
+				4DA8AF028CD2DC180B991183 /* [CP] Check Pods Manifest.lock */,
 				2B94F79B29AC8066002F7742 /* Sources */,
 				2B94F79C29AC8066002F7742 /* Frameworks */,
 				2B94F79D29AC8066002F7742 /* Resources */,
+				77F1CACBDE300DC95265333C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -202,6 +243,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		4DA8AF028CD2DC180B991183 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ChatWithAI-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		77F1CACBDE300DC95265333C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ChatWithAI/Pods-ChatWithAI-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ChatWithAI/Pods-ChatWithAI-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ChatWithAI/Pods-ChatWithAI-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		2B94F79B29AC8066002F7742 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -212,10 +295,12 @@
 				2B94F7AD29AC8066002F7742 /* ChatWithAI.xcdatamodeld in Sources */,
 				2B94F7A329AC8066002F7742 /* AppDelegate.swift in Sources */,
 				2B94F7C429AC9347002F7742 /* Content.swift in Sources */,
+				2BFA61B029BF33F7003A242E /* PhotoViewerViewController.swift in Sources */,
 				2B94F7A529AC8066002F7742 /* SceneDelegate.swift in Sources */,
 				2B94F7BB29AC82E8002F7742 /* ChatgptTableViewCell.swift in Sources */,
 				2B6B1EF529B4BE6400636270 /* APICaller.swift in Sources */,
 				2B94F7C229AC832B002F7742 /* ChatViewController.swift in Sources */,
+				2BFA61AE29BEDFB8003A242E /* Extensions.swift in Sources */,
 				2B94F7BF29AC8306002F7742 /* UserTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -358,6 +443,7 @@
 		};
 		2B94F7B729AC806B002F7742 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E899BE54413BC075C5B1755E /* Pods-ChatWithAI.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -366,6 +452,8 @@
 				DEVELOPMENT_TEAM = LVVC852PWL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ChatWithAI/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow access to take a profile picture.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow access to select a photo for your profile.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -386,6 +474,7 @@
 		};
 		2B94F7B829AC806B002F7742 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D356C2DA7018E398261556E9 /* Pods-ChatWithAI.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -394,6 +483,8 @@
 				DEVELOPMENT_TEAM = LVVC852PWL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ChatWithAI/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow access to take a profile picture.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow access to select a photo for your profile.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

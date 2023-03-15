@@ -6,5 +6,8 @@ target 'ChatWithAI' do
   use_frameworks!
 
   # Pods for ChatWithAI
+pod 'Firebase/Core'
+pod 'Firebase/Auth'
+pod 'Firebase/Database'
 
 end

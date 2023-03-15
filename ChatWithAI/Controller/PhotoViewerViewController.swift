@@ -1,13 +1,13 @@
 //
-//  LoginViewController.swift
+//  PhotoViewerViewController.swift
 //  ChatWithAI
 //
-//  Created by jr on 2023/3/10.
+//  Created by jr on 2023/3/13.
 //
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class PhotoViewerViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
