@@ -10,6 +10,9 @@
 		2B6B1EF529B4BE6400636270 /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6B1EF429B4BE6400636270 /* APICaller.swift */; };
 		2B6B1EFA29BB08A700636270 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6B1EF929BB08A700636270 /* LoginViewController.swift */; };
 		2B6B1EFC29BB08B900636270 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6B1EFB29BB08B900636270 /* RegisterViewController.swift */; };
+		2B882FEC29C2C1AD00FD3914 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2B882FEB29C2C1AC00FD3914 /* GoogleService-Info.plist */; };
+		2B882FEE29C451B800FD3914 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B882FED29C451B800FD3914 /* DatabaseManager.swift */; };
+		2B8D065E29CBECCB0038419A /* ChatgptModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8D065D29CBECCB0038419A /* ChatgptModel.swift */; };
 		2B94F7A329AC8066002F7742 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B94F7A229AC8066002F7742 /* AppDelegate.swift */; };
 		2B94F7A529AC8066002F7742 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B94F7A429AC8066002F7742 /* SceneDelegate.swift */; };
 		2B94F7AA29AC8066002F7742 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B94F7A829AC8066002F7742 /* Main.storyboard */; };
@@ -23,7 +26,7 @@
 		2B94F7C229AC832B002F7742 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B94F7C129AC832B002F7742 /* ChatViewController.swift */; };
 		2B94F7C429AC9347002F7742 /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B94F7C329AC9347002F7742 /* Content.swift */; };
 		2BFA61AE29BEDFB8003A242E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFA61AD29BEDFB8003A242E /* Extensions.swift */; };
-		2BFA61B029BF33F7003A242E /* PhotoViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFA61AF29BF33F7003A242E /* PhotoViewerViewController.swift */; };
+		2BFA61B029BF33F7003A242E /* ProfileViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFA61AF29BF33F7003A242E /* ProfileViewerViewController.swift */; };
 		8753C7121AE5F7A4DC9EBCDC /* Pods_ChatWithAI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6001232D6B429CE0FFC5D0CA /* Pods_ChatWithAI.framework */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +34,9 @@
 		2B6B1EF429B4BE6400636270 /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 		2B6B1EF929BB08A700636270 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		2B6B1EFB29BB08B900636270 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		2B882FEB29C2C1AC00FD3914 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2B882FED29C451B800FD3914 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		2B8D065D29CBECCB0038419A /* ChatgptModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatgptModel.swift; sourceTree = "<group>"; };
 		2B94F79F29AC8066002F7742 /* ChatWithAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatWithAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B94F7A229AC8066002F7742 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B94F7A429AC8066002F7742 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -46,7 +52,7 @@
 		2B94F7C129AC832B002F7742 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		2B94F7C329AC9347002F7742 /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
 		2BFA61AD29BEDFB8003A242E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		2BFA61AF29BF33F7003A242E /* PhotoViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewerViewController.swift; sourceTree = "<group>"; };
+		2BFA61AF29BF33F7003A242E /* ProfileViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewerViewController.swift; sourceTree = "<group>"; };
 		6001232D6B429CE0FFC5D0CA /* Pods_ChatWithAI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatWithAI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D356C2DA7018E398261556E9 /* Pods-ChatWithAI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatWithAI.release.xcconfig"; path = "Target Support Files/Pods-ChatWithAI/Pods-ChatWithAI.release.xcconfig"; sourceTree = "<group>"; };
 		E899BE54413BC075C5B1755E /* Pods-ChatWithAI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatWithAI.debug.xcconfig"; path = "Target Support Files/Pods-ChatWithAI/Pods-ChatWithAI.debug.xcconfig"; sourceTree = "<group>"; };
@@ -68,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				2B94F7C329AC9347002F7742 /* Content.swift */,
+				2B8D065D29CBECCB0038419A /* ChatgptModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -90,7 +97,7 @@
 			children = (
 				2B94F7C129AC832B002F7742 /* ChatViewController.swift */,
 				2BFA61B129BF3425003A242E /* login */,
-				2BFA61AF29BF33F7003A242E /* PhotoViewerViewController.swift */,
+				2BFA61AF29BF33F7003A242E /* ProfileViewerViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -99,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				2B6B1EF429B4BE6400636270 /* APICaller.swift */,
+				2B882FED29C451B800FD3914 /* DatabaseManager.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -116,6 +124,7 @@
 		2B94F79629AC8066002F7742 = {
 			isa = PBXGroup;
 			children = (
+				2B882FEB29C2C1AC00FD3914 /* GoogleService-Info.plist */,
 				2B94F7A129AC8066002F7742 /* ChatWithAI */,
 				2B94F7A029AC8066002F7742 /* Products */,
 				D400F227FE12B6E2C3307B53 /* Frameworks */,
@@ -161,7 +170,6 @@
 				E899BE54413BC075C5B1755E /* Pods-ChatWithAI.debug.xcconfig */,
 				D356C2DA7018E398261556E9 /* Pods-ChatWithAI.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -238,6 +246,7 @@
 				2B94F7AA29AC8066002F7742 /* Main.storyboard in Resources */,
 				2B94F7BC29AC82E8002F7742 /* ChatgptTableViewCell.xib in Resources */,
 				2B94F7C029AC8306002F7742 /* UserTableViewCell.xib in Resources */,
+				2B882FEC29C2C1AD00FD3914 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,12 +299,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B8D065E29CBECCB0038419A /* ChatgptModel.swift in Sources */,
 				2B6B1EFA29BB08A700636270 /* LoginViewController.swift in Sources */,
 				2B6B1EFC29BB08B900636270 /* RegisterViewController.swift in Sources */,
+				2B882FEE29C451B800FD3914 /* DatabaseManager.swift in Sources */,
 				2B94F7AD29AC8066002F7742 /* ChatWithAI.xcdatamodeld in Sources */,
 				2B94F7A329AC8066002F7742 /* AppDelegate.swift in Sources */,
 				2B94F7C429AC9347002F7742 /* Content.swift in Sources */,
-				2BFA61B029BF33F7003A242E /* PhotoViewerViewController.swift in Sources */,
+				2BFA61B029BF33F7003A242E /* ProfileViewerViewController.swift in Sources */,
 				2B94F7A529AC8066002F7742 /* SceneDelegate.swift in Sources */,
 				2B94F7BB29AC82E8002F7742 /* ChatgptTableViewCell.swift in Sources */,
 				2B6B1EF529B4BE6400636270 /* APICaller.swift in Sources */,
@@ -459,6 +470,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -490,6 +502,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

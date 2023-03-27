@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="tS8-ba-YU5">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Chat View Controller-->
+        <!--Chats-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ChatViewController" customModule="ChatWithAI" customModuleProvider="target" sceneMemberID="viewController">
@@ -16,30 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="wAQ-3Q-Suy">
-                                <rect key="frame" x="0.0" y="59" width="393" height="699"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="chatgptCell" id="bi9-lK-cgY" customClass="ChatgptTableViewCell" customModule="ChatWithAI" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="393" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bi9-lK-cgY" id="XrE-2y-tT9">
-                                            <rect key="frame" x="0.0" y="0.0" width="393" height="44"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="userCell" id="Ugc-hW-Wla" customClass="UserTableViewCell" customModule="ChatWithAI" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="94" width="393" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Ugc-hW-Wla" id="bRn-0g-1DF">
-                                            <rect key="frame" x="0.0" y="0.0" width="393" height="44"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JRZ-SI-VTm">
-                                <rect key="frame" x="10" y="768" width="383" height="50"/>
+                                <rect key="frame" x="10" y="719" width="383" height="50"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WYz-7P-thG">
                                         <rect key="frame" x="0.0" y="0.0" width="318" height="50"/>
@@ -70,6 +49,28 @@
                                     <constraint firstAttribute="bottom" secondItem="WYz-7P-thG" secondAttribute="bottom" id="l7i-Qp-XRV"/>
                                 </constraints>
                             </stackView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="wAQ-3Q-Suy">
+                                <rect key="frame" x="0.0" y="155" width="393" height="554"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="chatgptCell" id="bi9-lK-cgY" customClass="ChatgptTableViewCell" customModule="ChatWithAI" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="393" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bi9-lK-cgY" id="XrE-2y-tT9">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="userCell" id="Ugc-hW-Wla" customClass="UserTableViewCell" customModule="ChatWithAI" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="94" width="393" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Ugc-hW-Wla" id="bRn-0g-1DF">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemGray5Color"/>
@@ -79,11 +80,12 @@
                             <constraint firstItem="wAQ-3Q-Suy" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="h5b-Tk-AT9"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="JRZ-SI-VTm" secondAttribute="trailing" id="j33-zZ-8Th"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="wAQ-3Q-Suy" secondAttribute="trailing" id="jbJ-xc-66s"/>
+                            <constraint firstItem="wAQ-3Q-Suy" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="k6r-Y5-si5"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="JRZ-SI-VTm" secondAttribute="bottom" id="oq2-gJ-1yE"/>
                             <constraint firstItem="JRZ-SI-VTm" firstAttribute="top" secondItem="wAQ-3Q-Suy" secondAttribute="bottom" constant="10" id="yty-PR-RhP"/>
-                            <constraint firstItem="wAQ-3Q-Suy" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="zAN-kX-LPf"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Chats" id="3pb-LW-qey" userLabel="Chats"/>
                     <connections>
                         <outlet property="stackView" destination="JRZ-SI-VTm" id="WZM-Sr-lZk"/>
                         <outlet property="stackViewBottomConstraint" destination="oq2-gJ-1yE" id="kZB-eq-Bdk"/>
@@ -93,7 +95,80 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1954.9618320610687" y="4.9295774647887329"/>
+        </scene>
+        <!--Profile-->
+        <scene sceneID="ZPq-jl-XRH">
+            <objects>
+                <viewController id="9L2-ON-gvN" customClass="ProfileViewerViewController" customModule="ChatWithAI" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="R5C-r2-bev">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="zr0-Ie-jhA"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Profile" id="4Tt-gg-tWc"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IBA-c5-0fi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1955" y="715"/>
+        </scene>
+        <!--Chats-->
+        <scene sceneID="vFW-DN-2sn">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dHB-0h-JHy" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Chats" id="YNf-Kb-tzz"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="BGd-ez-cvh">
+                        <rect key="frame" x="0.0" y="59" width="393" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="zeZ-Ru-s7N"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A3m-8s-rFh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1028.2442748091603" y="4.9295774647887329"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="KaJ-XO-mRl">
+            <objects>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="tS8-ba-YU5" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="6hq-XH-NOr">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="dHB-0h-JHy" kind="relationship" relationship="viewControllers" id="QCw-hn-r2Y"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mmr-yC-bCh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
             <point key="canvasLocation" x="101.5267175572519" y="4.9295774647887329"/>
+        </scene>
+        <!--Profiles-->
+        <scene sceneID="fAk-PO-cKZ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ams-yA-Jy4" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Profiles" id="yDL-GA-C6y"/>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="5xZ-ew-9Xe"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="P0R-pz-MCD">
+                        <rect key="frame" x="0.0" y="59" width="393" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="9L2-ON-gvN" kind="relationship" relationship="rootViewController" id="sua-KX-EFZ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OuE-hg-Cpn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1181" y="715"/>
         </scene>
     </scenes>
     <resources>

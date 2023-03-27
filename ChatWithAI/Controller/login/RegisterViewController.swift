@@ -7,6 +7,7 @@
 
 import UIKit
 import PhotosUI //PhPickerViewController
+import FirebaseAuth
 
 class RegisterViewController: UIViewController {
     
@@ -161,6 +162,9 @@ class RegisterViewController: UIViewController {
                                      width: scrollView.width-80,
                                      height: 50)
     }
+    
+    var name:String?
+    var userEmail:String?
     //按下register按鈕時確認輸入的資料是否完整
     @objc private func registerButtonTapped(){
         firstName.resignFirstResponder()
@@ -173,9 +177,55 @@ class RegisterViewController: UIViewController {
             return
         }
         // Firebase log in
+        DatabaseManager.shared.userExists(with: email,completion:
+        { [weak self] exists in
+            
+            guard let strongSelf = self else {
+                return
+            }
+            //user already exists
+            guard !exists else {
+                strongSelf.alertUserLoginError(message:"Looks like a user account for that email address already exists.")
+                self?.fetchUserInfo()
+                return
+            }
+            FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+                
+                guard authResult != nil, error == nil else {
+                    print("Error creating user:\(String(describing: error?.localizedDescription))")
+                    return
+                }
+            //entry the database
+            DatabaseManager.shared.insertUser(with: ChatAppUser(firstName: firstName, lastName: lastName, emailAddress: email))
+            
+            strongSelf.navigationController?.dismiss(animated: false)
+            
+            self?.fetchUserInfo()
+            }
+        })
+
     }
-    func alertUserLoginError(){
-        let alert = UIAlertController(title: "Oops!", message: "Please enter all information to create a new account", preferredStyle: UIAlertController.Style.alert)
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        let chatVC = segue.destination as! ChatViewController
+//        chatVC.firstName = self.name
+//        chatVC.userEmail = self.userEmail
+//        chatVC.isLogin = true
+//        print("註冊傳遞，名字:\(name),信箱:\(userEmail)")
+//    }
+    func fetchUserInfo(){
+        DatabaseManager.shared.fetchUserInfo(with: self.userEmail ?? "")
+        { snapshotDic in
+            if let userInfo = snapshotDic.value(forKey: "first_name") {
+                
+                    self.name = userInfo as! String
+                    print("註冊取得資料：\(String(describing: self.name))")
+                }
+        }
+    }
+    
+    func alertUserLoginError(message:String = "Please enter all information to create a new account"){
+        let alert = UIAlertController(title: "Oops!", message: message, preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel))
         present(alert, animated: true)
         
@@ -200,7 +250,7 @@ extension RegisterViewController:UITextFieldDelegate{
         return true
     }
 }
-
+//拍照、選照片
 extension RegisterViewController:UIImagePickerControllerDelegate, UINavigationControllerDelegate,PHPickerViewControllerDelegate{
     
     

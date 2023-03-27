@@ -9,11 +9,12 @@ import Foundation
 
 struct APICaller{
     static let shared = APICaller()
-    private let apiKey = ""
+    private let apiKey = "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"
     private let baseURL:URL = URL(string: "https://api.openai.com/v1/")!
     
     func fetchChatGPTAPI(prompt:String,completion:@escaping(OpenAPIResponse)->Void){
-        let completionsURL = APICaller.shared.baseURL.appending(component: "completions")
+        let completionsURL = APICaller.shared.baseURL.appendingPathComponent("completions")
+//        let completionsURL = APICaller.shared.baseURL.appending(component: "completions")
         var request = URLRequest(url: completionsURL)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

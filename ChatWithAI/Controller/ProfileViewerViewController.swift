@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PhotoViewerViewController: UIViewController {
+class ProfileViewerViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
