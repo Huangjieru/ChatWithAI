@@ -75,9 +75,9 @@ class LoginViewController: UIViewController {
         return button
     }()
 
-    var userEmail:String?
-    var firstName:String?
-    var isLogin = false
+//    var userEmail:String?
+//    var firstName:String?
+//    var isLogin = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -135,83 +135,86 @@ class LoginViewController: UIViewController {
         passwordField.resignFirstResponder()
         //判斷輸入是否符合規定
         guard let email = emailField.text, let password = passwordField.text, !email.isEmpty, !password.isEmpty, password.count >= 6 else {
-            alertUserLoginError()
+            alertUserLoginError(message: "Please enter all information to log in")
             return
         }
-        
-        // Firebase log in
-        Firebase.Auth.auth().signIn(withEmail: email, password: password)
-        { [weak self] authResult, error in
-            
-            guard let strongSelf = self else{
+        //確認是否已有帳號
+        DatabaseManager.shared.userExists(with: email) { [weak self] exists in
+            guard !exists else {
+                self?.alertUserLoginError(message: "Please make a new account.")
                 return
-            }
-            
-            guard let result = authResult, error == nil else{
-                print("Failed:\(String(describing: error?.localizedDescription)) and failed to log in with email: \(email)")
-                return
-            }
-            let user = result.user
-            print("Success, logged in User(成功登入): \(String(describing: user.email))")
-            
-            //Dismiss the view 登入成功後退掉畫面
-            strongSelf.navigationController?.dismiss(animated: true)
-            
-            //Check whether the user is logged in or not.
-            if let user = Auth.auth().currentUser
-            {
-                print("logged in(已登入):\(user.uid),\(String(describing: user.email)),\(String(describing: user.displayName)),\(String(describing: user.photoURL))")
                 
-                //從firebase realtime資料庫讀取使用者的first name
-                //                var firstName = ""
-                if self?.isLogin == true{
-                    self?.userEmail = Auth.auth().currentUser?.email
-                    DatabaseManager.shared.fetchUserInfo(with: self?.userEmail ?? "")
-                    { snapshot in
-                        if let userInfoDic = snapshot.value(forKey: "first_name") {
-                            self?.firstName = userInfoDic as? String
-                            print("名字：\(String(describing: self?.firstName))")
-                            
-                        }
-                    }
-                    
-                }else{
-                    print("Not log in.")
-                }
             }
-            //Receive the login status changes接收登入狀態改變的通知
-            FirebaseAuth.Auth.auth().addStateDidChangeListener {[weak self] auth, user in
-                if let user = user{
-                    self?.userEmail = user.email
-                    print("\(String(describing: self?.userEmail)) login(要登入)")
-                    self?.isLogin = true
+            
+            // Firebase log in
+            Firebase.Auth.auth().signIn(withEmail: email, password: password)
+            { [weak self] authResult, error in
+                
+                guard let strongSelf = self else{
+                    return
+                }
+                
+                guard let result = authResult, error == nil else{
+                    print("Failed:\(String(describing: error?.localizedDescription)) and failed to log in with email: \(email)")
+                    return
+                }
+                let user = result.user
+                print("Success, logged in User(成功登入): \(String(describing: user.email))")
+                
+                //Dismiss the view 登入成功後退掉畫面
+                strongSelf.navigationController?.dismiss(animated: true)
+                
+                //Check whether the user is logged in or not.
+                if let user = Auth.auth().currentUser
+                {
+                    print("logged in(已登入):\(user.uid),\(String(describing: user.email)),\(String(describing: user.displayName)),\(String(describing: user.photoURL))")
                     
                     //從firebase realtime資料庫讀取使用者的first name
-                    DatabaseManager.shared.fetchUserInfo(with: self?.userEmail ?? "")
-                    { snapshotDic in
-                        if let userInfo = snapshotDic.value(forKey: "first_name") {
-                            
-                            self?.firstName = userInfo as! String
-                            print("登入取得資料：\(String(describing: self?.firstName))")
-                        }
+                    //                var firstName = ""
+    //                if self?.isLogin == true{
+    //                    self?.userEmail = Auth.auth().currentUser?.email
+    //                    DatabaseManager.shared.fetchUserInfo(with: self?.userEmail ?? "")
+    //                    { snapshot in
+    //                        if let userInfoDic = snapshot.value(forKey: "first_name") {
+    //                            self?.firstName = userInfoDic as? String
+    //                            print("名字：\(String(describing: self?.firstName))")
+    //
+    //                        }
+    //                    }
+                        
+    //                }else{
+    //                    print("Not log in.")
+    //                }
+                }
+                //Receive the login status changes接收登入狀態改變的通知
+                FirebaseAuth.Auth.auth().addStateDidChangeListener {[weak self] auth, user in
+                    if let user = user{
+    //                    self?.userEmail = user.email
+                        print("\(String(describing: user)) login(要登入)")
+    //                    self?.isLogin = true
+                        
+                        //從firebase realtime資料庫讀取使用者的first name
+    //                    DatabaseManager.shared.fetchUserInfo(with: self?.userEmail ?? "")
+    //                    { snapshotDic in
+    //                        if let userInfo = snapshotDic.value(forKey: "first_name") {
+    //
+    //                            self?.firstName = userInfo as! String
+    //                            print("登入取得資料：\(String(describing: self?.firstName))")
+    //                        }
+    //                    }
+                    }else{
+                        print("not login")
                     }
-                }else{
-                    print("not login")
                 }
             }
         }
+        
+        
     }
         
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        let chatVC = segue.destination as! ChatViewController
-//        chatVC.firstName = firstName ?? ""
-//        chatVC.userEmail = userEmail
-//        chatVC.isLogin = true
-//        print("登入傳遞，名字:\(firstName),信箱:\(userEmail)")
-//    }
     
-    func alertUserLoginError(){
-        let alert = UIAlertController(title: "Oops!", message: "Please enter all information to log in", preferredStyle: UIAlertController.Style.alert)
+    func alertUserLoginError(message:String){
+        let alert = UIAlertController(title: "Oops!", message: message, preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel))
         present(alert, animated: true)
         

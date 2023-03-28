@@ -163,8 +163,6 @@ class RegisterViewController: UIViewController {
                                      height: 50)
     }
     
-    var name:String?
-    var userEmail:String?
     //按下register按鈕時確認輸入的資料是否完整
     @objc private func registerButtonTapped(){
         firstName.resignFirstResponder()
@@ -185,10 +183,12 @@ class RegisterViewController: UIViewController {
             }
             //user already exists
             guard !exists else {
+                //alert帳號已存在
                 strongSelf.alertUserLoginError(message:"Looks like a user account for that email address already exists.")
-                self?.fetchUserInfo()
                 return
             }
+            
+            
             FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
                 
                 guard authResult != nil, error == nil else {
@@ -199,32 +199,13 @@ class RegisterViewController: UIViewController {
             DatabaseManager.shared.insertUser(with: ChatAppUser(firstName: firstName, lastName: lastName, emailAddress: email))
             
             strongSelf.navigationController?.dismiss(animated: false)
-            
-            self?.fetchUserInfo()
+
             }
         })
 
     }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        let chatVC = segue.destination as! ChatViewController
-//        chatVC.firstName = self.name
-//        chatVC.userEmail = self.userEmail
-//        chatVC.isLogin = true
-//        print("註冊傳遞，名字:\(name),信箱:\(userEmail)")
-//    }
-    func fetchUserInfo(){
-        DatabaseManager.shared.fetchUserInfo(with: self.userEmail ?? "")
-        { snapshotDic in
-            if let userInfo = snapshotDic.value(forKey: "first_name") {
-                
-                    self.name = userInfo as! String
-                    print("註冊取得資料：\(String(describing: self.name))")
-                }
-        }
-    }
-    
-    func alertUserLoginError(message:String = "Please enter all information to create a new account"){
+    private func alertUserLoginError(message:String = "Please enter all information to create a new account"){
         let alert = UIAlertController(title: "Oops!", message: message, preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel))
         present(alert, animated: true)

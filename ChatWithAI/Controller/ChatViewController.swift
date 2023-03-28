@@ -38,15 +38,14 @@ class ChatViewController: UIViewController {
         tableView.register(userTableViewCellXib, forCellReuseIdentifier: "userCell")
         //鍵盤遮住輸入格，調整位置
         setupKeyboard()
-        
-        //讀出數據資料（會顯示在firebase的即時資料庫裡）
-        //        DatabaseManager.shared.test()
+        //判斷是否已有登入
         validateAuth()
         
         //登出button在navigation的右方
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Logout", style: .done, target: self, action: #selector(logout))
         
-        if isLogin == true{
+        if isLogin == true
+        {
             //從firebase realtime資料庫讀取使用者的first name
                 DatabaseManager.shared.fetchUserInfo(with: self.userEmail ?? "")
                 { snapshotDic in
@@ -55,9 +54,9 @@ class ChatViewController: UIViewController {
                         self.firstName = userInfo as? String
                             print("主頁取得資料：\(String(describing: self.firstName))")
                         }
+                    self.loadConversations(with: self.userEmail ?? "")
                 }
-            
-            loadConversations(with: userEmail ?? "")
+
         }else{
             print("未登入，抓不到使用者名字")
         }
@@ -81,13 +80,13 @@ class ChatViewController: UIViewController {
                     if message.key.contains("userMessage"){
                         self.content.append(Content(name: "\(self.firstName)", text: message.value as! String))
                         
-//                        DispatchQueue.main.async {
+                        DispatchQueue.main.async {
                             self.tableView.reloadData()
                             //讓句子出現在最底層的對話中
                             let contentCount = (self.content.count ) - 1
                             let indexPath = IndexPath(row: contentCount, section: 0)
                             self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-//                        }
+                        }
                         
                         print("user的key:\(message.key),user訊息值:\(String(describing: message.value))")
                     }
@@ -95,13 +94,13 @@ class ChatViewController: UIViewController {
                     {
                         self.content.append(Content(name: "chatgpt", text: message.value as! String))
                         
-//                        DispatchQueue.main.async {
+                        DispatchQueue.main.async {
                             self.tableView.reloadData()
                             //讓句子出現在最底層的對話中
                             let contentCount = (self.content.count ) - 1
                             let indexPath = IndexPath(row: contentCount, section: 0)
                             self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-//                        }
+                        }
                         
                         print("chatGPT的key:\(message.key),chatgpt訊息值:\(String(describing: message.value))")
                     }
@@ -155,28 +154,29 @@ class ChatViewController: UIViewController {
     
     //MARK: - Send Message
     //按下傳送按鈕
-    var choicesText:String?
+//    var choicesText:String?
     @IBAction func sendMessage(_ sender: UIButton) {
-        
+        let userMessage = userMessageTextField.text ?? "no message"
             //將輸入的訊息加進content陣列裡
-        content.append(Content(name: "\(firstName ?? "")", text: userMessageTextField.text ?? ""))
-        
-//        DatabaseManager.shared.insertUserContent(with: userEmail ?? "", message: userMessageTextField.text  ?? "")
+        content.append(Content(name: "\(firstName ?? "")", text: userMessage))
+        //存入database
+//        DatabaseManager.shared.insertUserContent(with: Message(account: "\(userEmail ?? "")", userMessage: userMessageTextField.text  ?? "", chatgptMessage: "www"))
             //抓chatgpt API
-            
-            APICaller.shared.fetchChatGPTAPI(prompt: userMessageTextField.text ?? "")
+        
+            APICaller.shared.fetchChatGPTAPI(prompt: userMessage)
             { [weak self]
                 openAPIResponse
                 in
                 DispatchQueue.main.async
                 {
                     self?.openAPIResponse = openAPIResponse
-                    self?.choicesText = openAPIResponse.choices[0].text
+                    let choicesText = openAPIResponse.choices[0].text
 //                    print("ChatgptContent:\(self?.choicesText)")
+
+                    self?.content.append(Content(name: "chatgpt", text: choicesText ))
                     //存入database
-//                    DatabaseManager.shared.insertChatgptContent(with: self?.userEmail ?? "", message: choicesText)
-                    self?.content.append(Content(name: "chatgpt", text: self?.choicesText ?? "" ))
-                    
+                    DatabaseManager.shared.insertUserContent(with: Message(account: "\(self?.userEmail ?? "")", userMessage: userMessage, chatgptMessage: choicesText ))
+                    print("是否有值ChatgptContent:\(choicesText), 問題:\(userMessage)")
                     self?.tableView.reloadData() //更新資料
                     //讓句子出現在最底層的對話中
                     let contentCount = (self?.content.count ?? 1) - 1
@@ -186,9 +186,7 @@ class ChatViewController: UIViewController {
                 }
                 
             }
-        
-        DatabaseManager.shared.insertUserContent(with: Message(account: "\(userEmail ?? "")", userMessage: userMessageTextField.text  ?? "", chatgptMessage: choicesText ?? ""))
-        print("是否有值ChatgptContent:\(choicesText)")
+
             userMessageTextField.text = "" //按下傳送按鈕後，textField輸入前先清空文字
             self.tableView.reloadData() //按下傳送按鈕，將傳入的文字更新table資料並顯示在畫面上
             view.endEditing(true) //按下傳送按鈕後退鍵盤
