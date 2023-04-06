@@ -177,30 +177,29 @@ class RegisterViewController: UIViewController {
         // Firebase log in
         DatabaseManager.shared.userExists(with: email,completion:
         { [weak self] exists in
-            
+            print("註冊存在否:\(exists)")
             guard let strongSelf = self else {
                 return
             }
             //user already exists
-            guard !exists else {
+            guard !exists  else{
                 //alert帳號已存在
-                strongSelf.alertUserLoginError(message:"Looks like a user account for that email address already exists.")
+                strongSelf.alertUserLoginError(message:"This email address already exists.")
                 return
             }
-            
-            
-            FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
-                
-                guard authResult != nil, error == nil else {
-                    print("Error creating user:\(String(describing: error?.localizedDescription))")
-                    return
+//        })
+                FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+                    
+                    guard authResult != nil, error == nil else {
+                        print("Error creating user:\(String(describing: error?.localizedDescription))")
+                        return
+                    }
+                    //entry the database
+                    DatabaseManager.shared.insertUser(with: ChatAppUser(firstName: firstName, lastName: lastName, emailAddress: email))
+                    
+                    self?.navigationController?.dismiss(animated: false)
+                    
                 }
-            //entry the database
-            DatabaseManager.shared.insertUser(with: ChatAppUser(firstName: firstName, lastName: lastName, emailAddress: email))
-            
-            strongSelf.navigationController?.dismiss(animated: false)
-
-            }
         })
 
     }

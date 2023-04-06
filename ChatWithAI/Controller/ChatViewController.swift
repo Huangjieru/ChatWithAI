@@ -19,13 +19,13 @@ class ChatViewController: UIViewController {
     var openAPIResponse:OpenAPIResponse?
     
     var firstName:String?
-    var userEmail = Auth.auth().currentUser?.email?.replacingOccurrences(of: ".", with: "-").replacingOccurrences(of: "@", with: "-")
-    var isLogin = false
-    
+//    var isLogin = false
+   
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = .systemGray5
         
         tableView.delegate = self
@@ -39,80 +39,62 @@ class ChatViewController: UIViewController {
         //鍵盤遮住輸入格，調整位置
         setupKeyboard()
         //判斷是否已有登入
-        validateAuth()
+//        validateAuth()
         
         //登出button在navigation的右方
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Logout", style: .done, target: self, action: #selector(logout))
-        
-        if isLogin == true
-        {
-            //從firebase realtime資料庫讀取使用者的first name
-                DatabaseManager.shared.fetchUserInfo(with: self.userEmail ?? "")
-                { snapshotDic in
-                    if let userInfo = snapshotDic.value(forKey: "first_name") {
-                        
-                        self.firstName = userInfo as? String
-                            print("主頁取得資料：\(String(describing: self.firstName))")
-                        }
-                    self.loadConversations(with: self.userEmail ?? "")
-                }
 
-        }else{
-            print("未登入，抓不到使用者名字")
-        }
-        print("主頁名字：\(String(describing: self.firstName)),主頁信箱：\(String(describing: userEmail))")
-        
     }
-    func loadConversations(with user:String)
+    
+    func loadConversations()
     {
-        self.content = []
-        var safeEmail = user.replacingOccurrences(of: ".", with: "-")
-        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
-        
         let ref = Database.database().reference()
         
-        ref.child("User").child(safeEmail).child("conversations").observeSingleEvent(of:.value)
+        let currentUserEmail = Auth.auth().currentUser?.email
+        var safeEmail = currentUserEmail?.replacingOccurrences(of: ".", with: "-")
+        safeEmail = safeEmail?.replacingOccurrences(of: "@", with: "-")
+        
+//        DatabaseManager.shared.fetchUserInfo(with: safeEmail ?? "no user email")
+//        { snapshotDic in
+//            if let userInfo = snapshotDic.value(forKey: "first_name") {
+//
+//                self.firstName = userInfo as? String
+//                    print("主頁取得資料：\(String(describing: self.firstName))")
+//                }
+//        }
+        
+        ref.child("User").child(safeEmail ?? "no account").child("conversations").observeSingleEvent(of:.value)
         { snapshot in
+            self.content.removeAll()
+            
             if let allSnapshot = snapshot.children.allObjects as? [DataSnapshot]
             {
-                for message in allSnapshot{
-                    print("message是：\(message),包含:\(message.key.contains("userMessage"))")
-                    if message.key.contains("userMessage"){
-                        self.content.append(Content(name: "\(self.firstName)", text: message.value as! String))
-                        
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                            //讓句子出現在最底層的對話中
-                            let contentCount = (self.content.count ) - 1
-                            let indexPath = IndexPath(row: contentCount, section: 0)
-                            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-                        }
-                        
-                        print("user的key:\(message.key),user訊息值:\(String(describing: message.value))")
+                for message in allSnapshot
+                {
+                    let message = message.value as? [String:Any]
+                    let userMessage = message?["userMessage"]
+                    let chatgptMessage = message?["chatgptMessage"]
+//                    print("chatgptMessage:\(chatgptMessage)")
+
+                    self.content.append(Content(name: .user, text: userMessage as! String))
+                    self.content.append(Content(name: .chatgpt, text: chatgptMessage as! String))
+
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                        //讓句子出現在最底層的對話中
+                        let contentCount = (self.content.count ) - 1
+                        let indexPath = IndexPath(row: contentCount, section: 0)
+                        self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
                     }
-                    else if message.key.contains("chatgptMessage")
-                    {
-                        self.content.append(Content(name: "chatgpt", text: message.value as! String))
-                        
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                            //讓句子出現在最底層的對話中
-                            let contentCount = (self.content.count ) - 1
-                            let indexPath = IndexPath(row: contentCount, section: 0)
-                            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-                        }
-                        
-                        print("chatGPT的key:\(message.key),chatgpt訊息值:\(String(describing: message.value))")
-                    }
-                        
+                                            
                 }
      
             }
             
         }
     }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         /*
          let isLoggIn = UserDefaults.standard.bool(forKey: "logged_In")
          if !isLoggIn{
@@ -121,13 +103,12 @@ class ChatViewController: UIViewController {
          loggInNav.modalPresentationStyle = .fullScreen
          present(loggInNav, animated: false)
          }*/
-//        validateAuth()
-        
-        
+        validateAuth()
     }
     
     //判斷是否登入
     private func validateAuth(){
+        self.content.removeAll()
         if FirebaseAuth.Auth.auth().currentUser == nil
         {
             let vc = LoginViewController()
@@ -137,7 +118,9 @@ class ChatViewController: UIViewController {
         }
         else
         {
-            isLogin = true
+//            isLogin = true
+            print("isLogin")
+            self.loadConversations()
             
         }
     }
@@ -154,15 +137,14 @@ class ChatViewController: UIViewController {
     
     //MARK: - Send Message
     //按下傳送按鈕
-//    var choicesText:String?
+
     @IBAction func sendMessage(_ sender: UIButton) {
         let userMessage = userMessageTextField.text ?? "no message"
             //將輸入的訊息加進content陣列裡
-        content.append(Content(name: "\(firstName ?? "")", text: userMessage))
-        //存入database
-//        DatabaseManager.shared.insertUserContent(with: Message(account: "\(userEmail ?? "")", userMessage: userMessageTextField.text  ?? "", chatgptMessage: "www"))
-            //抓chatgpt API
+//        content.append(Content(name: "\(firstName ?? "")", text: userMessage))
+        content.append(Content(name: .user, text: userMessage))
         
+            //抓chatgpt API
             APICaller.shared.fetchChatGPTAPI(prompt: userMessage)
             { [weak self]
                 openAPIResponse
@@ -173,10 +155,13 @@ class ChatViewController: UIViewController {
                     let choicesText = openAPIResponse.choices[0].text
 //                    print("ChatgptContent:\(self?.choicesText)")
 
-                    self?.content.append(Content(name: "chatgpt", text: choicesText ))
+                    self?.content.append(Content(name: .chatgpt, text: choicesText ))
                     //存入database
-                    DatabaseManager.shared.insertUserContent(with: Message(account: "\(self?.userEmail ?? "")", userMessage: userMessage, chatgptMessage: choicesText ))
-                    print("是否有值ChatgptContent:\(choicesText), 問題:\(userMessage)")
+                    let currentUserEmail = Auth.auth().currentUser?.email
+                     var safeEmail = currentUserEmail?.replacingOccurrences(of: ".", with: "-")
+                     safeEmail = safeEmail?.replacingOccurrences(of: "@", with: "-")
+                    DatabaseManager.shared.insertContent(with: Message(account: safeEmail ?? "no user account", userMessage: userMessage, chatgptMessage: choicesText ))
+
                     self?.tableView.reloadData() //更新資料
                     //讓句子出現在最底層的對話中
                     let contentCount = (self?.content.count ?? 1) - 1
@@ -263,14 +248,13 @@ extension ChatViewController:UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let showContent = content[indexPath.row]
-
-        
-        if showContent.name == "chatgpt"
+   
+        if showContent.name == .chatgpt
             {
                 let chatgptCell = tableView.dequeueReusableCell(withIdentifier: "chatgptCell") as! ChatgptTableViewCell
 //                print(showContent.name.rawValue)
                 chatgptCell.chatgptTextView.text = showContent.text
-                chatgptCell.chatgptLabel.text = showContent.name
+            chatgptCell.chatgptLabel.text = showContent.name.rawValue
                 chatgptCell.chatgptImageView.image = UIImage(named: "chatgpt")
                 chatgptCell.updateChatGPTUI()
                 
@@ -279,7 +263,7 @@ extension ChatViewController:UITableViewDelegate,UITableViewDataSource{
         else{
                 let userCell = tableView.dequeueReusableCell(withIdentifier: "userCell") as! UserTableViewCell
 //                print(showContent.name.rawValue)
-                userCell.userLabel.text = showContent.name
+            userCell.userLabel.text = showContent.name.rawValue
                 userCell.userTextView?.text = showContent.text
                 userCell.userImageView.image = UIImage(systemName: "person.crop.circle")
                 userCell.updateUserUI()

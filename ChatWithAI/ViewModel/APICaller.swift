@@ -9,7 +9,7 @@ import Foundation
 
 struct APICaller{
     static let shared = APICaller()
-    private let apiKey = ""
+    private let apiKey = "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"
     private let baseURL:URL = URL(string: "https://api.openai.com/v1/")!
     
     func fetchChatGPTAPI(prompt:String,completion:@escaping(OpenAPIResponse)->Void){

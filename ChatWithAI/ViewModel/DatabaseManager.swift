@@ -18,7 +18,7 @@ final class DatabaseManager{
 //    public func test(){
 //        database.child("foo").setValue(["something":true])
 //    }
-    var date:Date = .now
+    
 }
 //MARK: - Account Management
 extension DatabaseManager{
@@ -31,6 +31,7 @@ extension DatabaseManager{
         safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
         
         ref.child("User").child(safeEmail).observeSingleEvent(of: .value) { snapshot in
+            
             guard snapshot.value as? String != nil else {
               completion(false)
                 return
@@ -50,20 +51,20 @@ extension DatabaseManager{
         )
     }
     ///Insert conversations to database
-    public func insertUserContent(with user:Message)
+    public func insertContent(with user:Message)
     {
-        var safeEmail = user.account.replacingOccurrences(of: ".", with: "-")
-        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
-        ref.child("User").child(safeEmail).child("conversations").child("\(date)").setValue(["userMessage":user.userMessage,"chatgptMessage":user.chatgptMessage ])
+        let message:[String:Any] =
+        [
+                "userMessage": user.userMessage,
+                "chatgptMessage":user.chatgptMessage
+        ]
+
+        let date = Date()
+        
+        ref.child("User").child(user.safeEmail).child("conversations").child("\(date)").setValue(message)
 
     }
    
-//    public func insertChatgptContent(with user:String,message:String)
-//    {
-//        var safeEmail = user.replacingOccurrences(of: ".", with: "-")
-//        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
-//        ref.child("User").child(safeEmail).child("conversations").setValue(["chatgptMessage":message ])
-//    }
     ///get user information form database
     public func fetchUserInfo(with email:String,
                               completion: @escaping (NSDictionary)->Void)
@@ -120,4 +121,10 @@ struct Message{
     let account:String
     let userMessage:String
     let chatgptMessage:String
+    //computed property
+    var safeEmail:String{
+        var safeEmail = account.replacingOccurrences(of: ".", with: "-")
+        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
+        return safeEmail
+    }
 }

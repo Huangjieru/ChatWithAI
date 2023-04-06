@@ -8,8 +8,9 @@
 import Foundation
 
 enum Name:String{
-    case chapgpt = "ChatGPT"
-    case user = "Me"
+    case chatgpt = "chatgpt"
+    case user = "me"
+    
 }
 
 struct Content{
@@ -17,17 +18,4 @@ struct Content{
     let text:String
 }
 
-//MARK: - OpenAPI
-struct OpenAPIParameters:Encodable{
-    let model:String = "text-davinci-003"
-    let prompt:String
-    let temperature:Double = 0.8
-    let max_tokens = 3000
 
-}
-struct OpenAPIResponse:Decodable{
-    let choices:[Choices]
-}
-struct Choices:Decodable{
-    let text:String
-}
