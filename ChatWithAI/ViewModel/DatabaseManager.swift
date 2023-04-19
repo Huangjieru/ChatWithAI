@@ -7,18 +7,16 @@
 
 import Foundation
 import FirebaseDatabase
+import FirebaseStorage
 
 //final class: this class cannot be subclassed called
 final class DatabaseManager{
     //singleton
     static let shared = DatabaseManager()
-    //從數據庫讀取或寫入數據
-    private let ref:DatabaseReference =  Database.database().reference()
-    //使用setValue添加到database(json格式)
-//    public func test(){
-//        database.child("foo").setValue(["something":true])
-//    }
-    
+    //從數據庫讀取或寫入數據realtime database
+    private let databaseReference:DatabaseReference =  Database.database().reference()
+    //上傳檔案到storage
+    private let storageReference:StorageReference = Storage.storage().reference()
 }
 //MARK: - Account Management
 extension DatabaseManager{
@@ -30,7 +28,7 @@ extension DatabaseManager{
         var safeEmail = email.replacingOccurrences(of: ".", with: "-")
         safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
         
-        ref.child("User").child(safeEmail).observeSingleEvent(of: .value) { snapshot in
+        databaseReference.child("User").child(safeEmail).observeSingleEvent(of: .value) { snapshot in
             
             guard snapshot.value as? String != nil else {
               completion(false)
@@ -43,13 +41,15 @@ extension DatabaseManager{
     ///Inserts new user to database
     public func insertUser(with user:ChatAppUser)
     {
-        ref.child("User").child(user.safeEmail).setValue(
+        databaseReference.child("User").child(user.safeEmail).setValue(
             [
             "first_name": user.firstName,
-            "last_name": user.lastName
+            "last_name": user.lastName,
+            "profile":user.profilePictureUrl
             ]
         )
     }
+    
     ///Insert conversations to database
     public func insertContent(with user:Message)
     {
@@ -61,46 +61,51 @@ extension DatabaseManager{
 
         let date = Date()
         
-        ref.child("User").child(user.safeEmail).child("conversations").child("\(date)").setValue(message)
+        databaseReference.child("User").child(user.safeEmail).child("conversations").child("\(date)").setValue(message)
 
     }
-   
-    ///get user information form database
-    public func fetchUserInfo(with email:String,
-                              completion: @escaping (NSDictionary)->Void)
+    
+   public func uploadPhoto(image:UIImage?, completion:@escaping (Result<URL, Error>)-> Void)
     {
-        var safeEmail = email.replacingOccurrences(of: ".", with: "-")
-        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
-
-        ref.child("User").child(safeEmail).observeSingleEvent(of:.value){ snapshot in
-            if let userInfoDic = snapshot.value as? NSDictionary{
-                completion(userInfoDic)
-            }
-        }
-    }
-    /*
-    ///get conversations form database
-    public func loadConversations(with email:String,
-                              completion: @escaping (String)->Void)
-    {
-        var safeEmail = email.replacingOccurrences(of: ".", with: "-")
-        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
-
-        ref.child("User").child(safeEmail).child("conversations").observeSingleEvent(of:.value)
-        { snapshot in
-            if let allSnapshot = snapshot.children.allObjects as? [DataSnapshot]
-            {
-                for message in allSnapshot{
-                    if let content = message.value as? String{
-                        completion(content)
-                    }
+        let fileReference = storageReference.child(UUID().uuidString + ".jpg")
+        if let imageData = image?.jpegData(compressionQuality: 0.7)
+        {
+            fileReference.putData(imageData, metadata: nil)
+            { result in
+                switch result
+                {
+                    case .success:
+                    fileReference.downloadURL(completion: completion)
+                    case .failure(let error):
+                        completion(.failure(error))
                 }
-                
-                
             }
-            
         }
-    }*/
+    }
+    
+    public func loadConversations(email:String, completion:@escaping (DataSnapshot)->Void){
+        var safeEmail = email.replacingOccurrences(of: ".", with: "-")
+        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
+        databaseReference.child("User").child(safeEmail).child("conversations").observeSingleEvent(of:.value)
+        { snapshot in
+            guard snapshot.children.allObjects as? [DataSnapshot] != nil else{
+                print("no data in Firebase")
+                return
+            }
+           completion(snapshot)
+        }
+    }
+    public func loadProfile(email:String, completion:@escaping (DataSnapshot?)-> Void){
+        var safeEmail = email.replacingOccurrences(of: ".", with: "-")
+        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
+        databaseReference.child("User").child(safeEmail).child("profile").observeSingleEvent(of: .value) { snapshot in
+            guard snapshot.children.allObjects as? [DataSnapshot] != nil else{
+                print("no data in Firebase")
+                return
+            }
+            completion(snapshot)
+        }
+    }
 }
 
 struct ChatAppUser{
@@ -114,7 +119,7 @@ struct ChatAppUser{
         safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
         return safeEmail
     }
-//    let profilePictureUrl:String
+    let profilePictureUrl:String?
 }
 
 struct Message{

@@ -8,10 +8,11 @@
 import UIKit
 import PhotosUI //PhPickerViewController
 import FirebaseAuth
+import FirebaseStorage
 
 class RegisterViewController: UIViewController {
     
-    private let scrollView:UIScrollView = {
+    private var scrollView:UIScrollView = {
         let scrollView = UIScrollView()
         //        scrollView.clipsToBounds = true //剪裁超出父视图范围的子视图部分。在 UIScrollView 中，它的默认值是 YES
         return scrollView
@@ -124,7 +125,42 @@ class RegisterViewController: UIViewController {
         scrollView.isUserInteractionEnabled = true
         let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapChangeProfilePic))
         iconImageView.addGestureRecognizer(gesture)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        dismissKeyboardFromBackground()
     }
+    
+    @objc func keyboardWillShow(notification:NSNotification){
+        if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue{
+            let keyboardSize = keyboardFrame.cgRectValue
+            let keyboardHight = keyboardSize.height
+            
+            let keyboardTopY = self.view.frame.height - keyboardHight
+            
+            let registerButtonBottomY = self.registerButton.frame.size.height + self.registerButton.frame.origin.y
+            if registerButtonBottomY > keyboardTopY{
+                print("registerButtonBottomY:\(registerButtonBottomY), keyboardTopY:\(keyboardTopY)")
+                scrollView.frame.origin.y = -keyboardTopY/2 + 10
+            }
+            
+        }
+    }
+    @objc func keyboardWillHide(){
+        scrollView.frame.origin.y = 0
+    }
+    
+    //點背景退鍵盤
+    func dismissKeyboardFromBackground(){
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        //tapGesture.cancelsTouchesInView = false //如果有didSelectRowAt會造成衝突，有didSelectRowAt在把cancelsTouchesInView變成false即可
+        scrollView.addGestureRecognizer(tapGesture)
+    }
+
+    @objc func dismissKeyboard(){
+        self.scrollView.endEditing(true)
+    }
+    
     //點選imageView跳出選單(sheet)
     @objc private func didTapChangeProfilePic(){
         print("Change pic called")
@@ -187,29 +223,41 @@ class RegisterViewController: UIViewController {
                 strongSelf.alertUserLoginError(message:"This email address already exists.")
                 return
             }
-//        })
                 FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
                     
-                    guard authResult != nil, error == nil else {
-                        print("Error creating user:\(String(describing: error?.localizedDescription))")
-                        return
+                guard authResult != nil, error == nil else {
+                    print("Error creating user:\(String(describing: error?.localizedDescription))")
+                    return
+                }
+                  //上傳註冊資料、照片到realtime database
+                    DatabaseManager.shared.uploadPhoto(image: self?.iconImageView.image) { result in
+                        switch result{
+                        case .success(let url):
+                            let imageUrlString = url.absoluteString
+                            print("圖片路徑:\(url)")
+                            //entry the database
+                            DatabaseManager.shared.insertUser(with: ChatAppUser(firstName: firstName, lastName: lastName, emailAddress: email,profilePictureUrl: imageUrlString))
+
+                        case .failure(let error):
+                            print(error)
+                        }
                     }
-                    //entry the database
-                    DatabaseManager.shared.insertUser(with: ChatAppUser(firstName: firstName, lastName: lastName, emailAddress: email))
-                    
+
                     self?.navigationController?.dismiss(animated: false)
                     
                 }
-        })
 
+        })
     }
-    
     private func alertUserLoginError(message:String = "Please enter all information to create a new account"){
         let alert = UIAlertController(title: "Oops!", message: message, preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel))
         present(alert, animated: true)
         
     }
+    
+    //MARK: - Upload Photo
+    
     
 }
 

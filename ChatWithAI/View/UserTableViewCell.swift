@@ -25,6 +25,7 @@ class UserTableViewCell: UITableViewCell {
     }
     func updateUserUI(){
         userImageView.layer.cornerRadius = 15
+        userImageView.contentMode = .scaleAspectFill
         userTextView.layer.cornerRadius = 15
         userTextView.userTextViewPadding()
         userTextView.font = UIFont.systemFont(ofSize: 20)

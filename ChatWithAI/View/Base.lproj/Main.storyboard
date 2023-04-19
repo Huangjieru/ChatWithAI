@@ -97,27 +97,11 @@
             </objects>
             <point key="canvasLocation" x="1954.9618320610687" y="4.9295774647887329"/>
         </scene>
-        <!--Profile-->
-        <scene sceneID="ZPq-jl-XRH">
-            <objects>
-                <viewController id="9L2-ON-gvN" customClass="ProfileViewerViewController" customModule="ChatWithAI" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="R5C-r2-bev">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="zr0-Ie-jhA"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Profile" id="4Tt-gg-tWc"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="IBA-c5-0fi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1955" y="715"/>
-        </scene>
-        <!--Chats-->
+        <!--Navigation Controller-->
         <scene sceneID="vFW-DN-2sn">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dHB-0h-JHy" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Chats" id="YNf-Kb-tzz"/>
+                    <tabBarItem key="tabBarItem" title="" id="YNf-Kb-tzz"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="BGd-ez-cvh">
                         <rect key="frame" x="0.0" y="59" width="393" height="96"/>
@@ -149,26 +133,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mmr-yC-bCh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="101.5267175572519" y="4.9295774647887329"/>
-        </scene>
-        <!--Profiles-->
-        <scene sceneID="fAk-PO-cKZ">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ams-yA-Jy4" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Profiles" id="yDL-GA-C6y"/>
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" id="5xZ-ew-9Xe"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="P0R-pz-MCD">
-                        <rect key="frame" x="0.0" y="59" width="393" height="96"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="9L2-ON-gvN" kind="relationship" relationship="rootViewController" id="sua-KX-EFZ"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="OuE-hg-Cpn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1181" y="715"/>
         </scene>
     </scenes>
     <resources>

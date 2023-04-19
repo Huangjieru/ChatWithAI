@@ -4,10 +4,11 @@
 //
 //  Created by jr on 2023/2/27.
 //
-
+import Foundation
 import UIKit
 import FirebaseAuth
 import Firebase
+import FirebaseStorage
 
 class ChatViewController: UIViewController {
     
@@ -17,9 +18,8 @@ class ChatViewController: UIViewController {
     @IBOutlet weak var stackViewBottomConstraint: NSLayoutConstraint!
     var content = [Content]()
     var openAPIResponse:OpenAPIResponse?
-    
-    var firstName:String?
-//    var isLogin = false
+    var havePicture = false
+//    var firstName:String?
    
     @IBOutlet weak var tableView: UITableView!
     
@@ -38,61 +38,12 @@ class ChatViewController: UIViewController {
         tableView.register(userTableViewCellXib, forCellReuseIdentifier: "userCell")
         //鍵盤遮住輸入格，調整位置
         setupKeyboard()
-        //判斷是否已有登入
-//        validateAuth()
         
         //登出button在navigation的右方
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Logout", style: .done, target: self, action: #selector(logout))
 
     }
     
-    func loadConversations()
-    {
-        let ref = Database.database().reference()
-        
-        let currentUserEmail = Auth.auth().currentUser?.email
-        var safeEmail = currentUserEmail?.replacingOccurrences(of: ".", with: "-")
-        safeEmail = safeEmail?.replacingOccurrences(of: "@", with: "-")
-        
-//        DatabaseManager.shared.fetchUserInfo(with: safeEmail ?? "no user email")
-//        { snapshotDic in
-//            if let userInfo = snapshotDic.value(forKey: "first_name") {
-//
-//                self.firstName = userInfo as? String
-//                    print("主頁取得資料：\(String(describing: self.firstName))")
-//                }
-//        }
-        
-        ref.child("User").child(safeEmail ?? "no account").child("conversations").observeSingleEvent(of:.value)
-        { snapshot in
-            self.content.removeAll()
-            
-            if let allSnapshot = snapshot.children.allObjects as? [DataSnapshot]
-            {
-                for message in allSnapshot
-                {
-                    let message = message.value as? [String:Any]
-                    let userMessage = message?["userMessage"]
-                    let chatgptMessage = message?["chatgptMessage"]
-//                    print("chatgptMessage:\(chatgptMessage)")
-
-                    self.content.append(Content(name: .user, text: userMessage as! String))
-                    self.content.append(Content(name: .chatgpt, text: chatgptMessage as! String))
-
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                        //讓句子出現在最底層的對話中
-                        let contentCount = (self.content.count ) - 1
-                        let indexPath = IndexPath(row: contentCount, section: 0)
-                        self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-                    }
-                                            
-                }
-     
-            }
-            
-        }
-    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         /*
@@ -118,10 +69,44 @@ class ChatViewController: UIViewController {
         }
         else
         {
-//            isLogin = true
-            print("isLogin")
-            self.loadConversations()
-            
+            //download conversations data from firebase
+            let currentUserEmail = Auth.auth().currentUser?.email ?? ""
+            DatabaseManager.shared.loadConversations(email: currentUserEmail)
+            { [weak self] snapshot in
+                self?.content.removeAll()
+                
+                if let allSnapshot = snapshot.children.allObjects as? [DataSnapshot]
+                {
+                    for message in allSnapshot
+                    {
+                        let message = message.value as? [String:Any]
+//                        print("message:\(message)")
+                        let userMessage = message?["userMessage"]
+                        let chatgptMessage = message?["chatgptMessage"]
+//                        print("chatgptMessage:\(chatgptMessage)")
+
+                        self?.content.append(Content(name: .user, text: userMessage as! String))
+                        self?.content.append(Content(name: .chatgpt, text: chatgptMessage as! String))
+                        DispatchQueue.main.async {
+                            self?.tableView.reloadData()
+                            //讓句子出現在最底層的對話中
+                            let contentCount = (self?.content.count ?? 1 ) - 1
+                            let indexPath = IndexPath(row: contentCount, section: 0)
+                            self?.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+                        }
+                                                
+                    }
+         
+                }
+                
+            }
+            //確認是否有大頭照的路徑
+            DatabaseManager.shared.loadProfile(email: currentUserEmail) { [weak self] snapShot in
+                if snapShot?.value as? String != nil{
+                    self?.havePicture = true
+                }
+            }
+            print("download data from firebase")
         }
     }
     /*
@@ -265,8 +250,31 @@ extension ChatViewController:UITableViewDelegate,UITableViewDataSource{
 //                print(showContent.name.rawValue)
             userCell.userLabel.text = showContent.name.rawValue
                 userCell.userTextView?.text = showContent.text
-                userCell.userImageView.image = UIImage(systemName: "person.crop.circle")
+            //從Firebase下載照片
+            if self.havePicture == true{
+                let currentEmail = Auth.auth().currentUser?.email ?? ""
+                DatabaseManager.shared.loadProfile(email: currentEmail)
+                { snapShot in
+                    if let value = snapShot?.value as? String{
+                        print("picturePath:\(value)")
+                        let pathUrl = URL(string: value)!
+                        URLSession.shared.dataTask(with: pathUrl) { data, response, error in
+                            guard let data = data, error == nil else{
+                                return
+                            }
+                            DispatchQueue.main.async {
+                                userCell.userImageView.image = UIImage(data: data)
+                            }
+                            print("大頭照路徑：\(pathUrl)")
+                        }.resume()
+                    }
+                }
+            }
+            else{
+                userCell.userImageView.image = UIImage(systemName: "person.circle" )
+            }
                 userCell.updateUserUI()
+            
                 return userCell
             }
     }

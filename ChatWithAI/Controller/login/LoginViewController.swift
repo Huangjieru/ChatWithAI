@@ -96,6 +96,8 @@ class LoginViewController: UIViewController {
         scrollView.addSubview(passwordField)
         scrollView.addSubview(loginButton)
         scrollView.addSubview(registerButton)
+       
+        dismissKeyboardFromBackground()
     }
     
     override func viewDidLayoutSubviews() {
@@ -122,6 +124,17 @@ class LoginViewController: UIViewController {
         registerButton.frame.size = CGSize(width: 100, height: 30)
         
     }
+    
+    //點背景退鍵盤
+    func dismissKeyboardFromBackground(){
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        //tapGesture.cancelsTouchesInView = false //如果有didSelectRowAt會造成衝突，有didSelectRowAt在把cancelsTouchesInView變成false即可
+        scrollView.addGestureRecognizer(tapGesture)
+    }
+
+    @objc func dismissKeyboard(){
+        self.scrollView.endEditing(true)
+    }
 
     //按下login按鈕時確認輸入的資料是否完整
     @objc private func loginButtonTapped()
@@ -140,8 +153,8 @@ class LoginViewController: UIViewController {
             print("exists:\(exists)")
             //帳號已存在
             guard !exists else{
-                print("請註冊新帳號")
-                self?.alertUserLoginError(message: "Please make a new account.")
+//                print("請註冊新帳號")
+//                self?.alertUserLoginError(message: "Please make a new account.")
                 return
             }
             // Firebase log in
@@ -153,6 +166,7 @@ class LoginViewController: UIViewController {
                 }
                 
                 guard let result = authResult, error == nil else{
+                    self?.alertUserLoginError(message: "Please make a new account.")
                     print("Failed:\(String(describing: error?.localizedDescription)) and failed to log in with email: \(email)")
                     return
                 }
