@@ -83,7 +83,7 @@ class LoginViewController: UIViewController {
         
 //        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Register", style: .done, target: self, action: #selector(didTapRegister))
         //按下login按鈕下方的註冊也可以連到與右上角按鈕同一個註冊畫面
-        registerButton.addTarget(RegisterViewController(), action: #selector(didTapRegister), for: .touchUpInside)
+//        registerButton.addTarget(RegisterViewController(), action: #selector(didTapRegister), for: .touchUpInside)
         loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         
         emailField.delegate = self
@@ -124,7 +124,7 @@ class LoginViewController: UIViewController {
         registerButton.frame.size = CGSize(width: 100, height: 30)
         
     }
-    
+    //MARK: - Keyboard
     //點背景退鍵盤
     func dismissKeyboardFromBackground(){
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
@@ -135,7 +135,8 @@ class LoginViewController: UIViewController {
     @objc func dismissKeyboard(){
         self.scrollView.endEditing(true)
     }
-
+    
+    //MARK: - log in
     //按下login按鈕時確認輸入的資料是否完整
     @objc private func loginButtonTapped()
     {
@@ -204,6 +205,7 @@ class LoginViewController: UIViewController {
         present(alert, animated: true)
         
     }
+    //MARK: - register
     @objc private func didTapRegister(){
         let registerVC = RegisterViewController()
         registerVC.title = "Register Account"

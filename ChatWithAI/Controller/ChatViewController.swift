@@ -16,6 +16,7 @@ class ChatViewController: UIViewController {
     @IBOutlet weak var stackView: UIStackView!
     
     @IBOutlet weak var stackViewBottomConstraint: NSLayoutConstraint!
+    
     var content = [Content]()
     var openAPIResponse:OpenAPIResponse?
     var havePicture = false
@@ -178,7 +179,7 @@ class ChatViewController: UIViewController {
             print("登出失敗\(error)")
         }
     }
-        
+    //MARK: - Keyboard
         //鍵盤觀察器
         private func setupKeyboard(){
             NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)

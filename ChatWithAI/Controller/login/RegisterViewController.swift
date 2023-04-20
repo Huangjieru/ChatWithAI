@@ -131,42 +131,6 @@ class RegisterViewController: UIViewController {
         dismissKeyboardFromBackground()
     }
     
-    @objc func keyboardWillShow(notification:NSNotification){
-        if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue{
-            let keyboardSize = keyboardFrame.cgRectValue
-            let keyboardHight = keyboardSize.height
-            
-            let keyboardTopY = self.view.frame.height - keyboardHight
-            
-            let registerButtonBottomY = self.registerButton.frame.size.height + self.registerButton.frame.origin.y
-            if registerButtonBottomY > keyboardTopY{
-                print("registerButtonBottomY:\(registerButtonBottomY), keyboardTopY:\(keyboardTopY)")
-                scrollView.frame.origin.y = -keyboardTopY/2 + 10
-            }
-            
-        }
-    }
-    @objc func keyboardWillHide(){
-        scrollView.frame.origin.y = 0
-    }
-    
-    //點背景退鍵盤
-    func dismissKeyboardFromBackground(){
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        //tapGesture.cancelsTouchesInView = false //如果有didSelectRowAt會造成衝突，有didSelectRowAt在把cancelsTouchesInView變成false即可
-        scrollView.addGestureRecognizer(tapGesture)
-    }
-
-    @objc func dismissKeyboard(){
-        self.scrollView.endEditing(true)
-    }
-    
-    //點選imageView跳出選單(sheet)
-    @objc private func didTapChangeProfilePic(){
-        print("Change pic called")
-        presentPhotoActionSheet()
-    }
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         scrollView.frame = view.bounds
@@ -255,10 +219,38 @@ class RegisterViewController: UIViewController {
         present(alert, animated: true)
         
     }
+    //MARK: - Keyboard
+    @objc func keyboardWillShow(notification:NSNotification){
+        if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue{
+            let keyboardSize = keyboardFrame.cgRectValue
+            let keyboardHight = keyboardSize.height
+            
+            let keyboardTopY = self.view.frame.height - keyboardHight
+            
+            let registerButtonBottomY = self.registerButton.frame.size.height + self.registerButton.frame.origin.y
+            if registerButtonBottomY > keyboardTopY{
+                print("registerButtonBottomY:\(registerButtonBottomY), keyboardTopY:\(keyboardTopY)")
+                scrollView.frame.origin.y = -keyboardTopY/2 + 10
+            }
+            
+        }
+    }
+    @objc func keyboardWillHide(){
+        scrollView.frame.origin.y = 0
+    }
     
-    //MARK: - Upload Photo
+    //點背景退鍵盤
+    func dismissKeyboardFromBackground(){
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        //tapGesture.cancelsTouchesInView = false //如果有didSelectRowAt會造成衝突，有didSelectRowAt在把cancelsTouchesInView變成false即可
+        scrollView.addGestureRecognizer(tapGesture)
+    }
+
+    @objc func dismissKeyboard(){
+        self.scrollView.endEditing(true)
+    }
     
-    
+
 }
 
 extension RegisterViewController:UITextFieldDelegate{
@@ -278,9 +270,15 @@ extension RegisterViewController:UITextFieldDelegate{
         return true
     }
 }
+//MARK: - Picture
 //拍照、選照片
 extension RegisterViewController:UIImagePickerControllerDelegate, UINavigationControllerDelegate,PHPickerViewControllerDelegate{
     
+    //點選imageView跳出選單(sheet)
+    @objc private func didTapChangeProfilePic(){
+        print("Change pic called")
+        presentPhotoActionSheet()
+    }
     
     //跳出選單
     func presentPhotoActionSheet(){

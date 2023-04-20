@@ -9,6 +9,33 @@ import Foundation
 import FirebaseDatabase
 import FirebaseStorage
 
+
+struct ChatAppUser{
+    let firstName:String
+    let lastName:String
+    let emailAddress:String
+
+    //computed property
+    var safeEmail:String{
+        var safeEmail = emailAddress.replacingOccurrences(of: ".", with: "-")
+        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
+        return safeEmail
+    }
+    let profilePictureUrl:String?
+}
+
+struct Message{
+    let account:String
+    let userMessage:String
+    let chatgptMessage:String
+    //computed property
+    var safeEmail:String{
+        var safeEmail = account.replacingOccurrences(of: ".", with: "-")
+        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
+        return safeEmail
+    }
+}
+
 //final class: this class cannot be subclassed called
 final class DatabaseManager{
     //singleton
@@ -64,7 +91,7 @@ extension DatabaseManager{
         databaseReference.child("User").child(user.safeEmail).child("conversations").child("\(date)").setValue(message)
 
     }
-    
+    ///Insert picture to database
    public func uploadPhoto(image:UIImage?, completion:@escaping (Result<URL, Error>)-> Void)
     {
         let fileReference = storageReference.child(UUID().uuidString + ".jpg")
@@ -108,28 +135,3 @@ extension DatabaseManager{
     }
 }
 
-struct ChatAppUser{
-    let firstName:String
-    let lastName:String
-    let emailAddress:String
-
-    //computed property
-    var safeEmail:String{
-        var safeEmail = emailAddress.replacingOccurrences(of: ".", with: "-")
-        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
-        return safeEmail
-    }
-    let profilePictureUrl:String?
-}
-
-struct Message{
-    let account:String
-    let userMessage:String
-    let chatgptMessage:String
-    //computed property
-    var safeEmail:String{
-        var safeEmail = account.replacingOccurrences(of: ".", with: "-")
-        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
-        return safeEmail
-    }
-}
